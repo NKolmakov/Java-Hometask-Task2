@@ -1,33 +1,17 @@
 package classes;
 
-import interfaces.IHaveChildObject;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import interfaces.TextObject;
 
 
-public class Word implements IHaveChildObject {
-    BookHelper bookHelper = BookHelper.getInstance();
-    private List<String> words = new ArrayList<String>();
+public class Word implements TextObject {
+    String wordAndSign = "";
 
-    public Word(){
-        separateByWords();
-        new Sentence(this); //todo: if program will be broken problem is here
+
+    public void setWord(String word){
+        this.wordAndSign = word;
     }
 
-    public List getChildClassObjects() {
-        return words;
+    public void print() {
+
     }
-
-    public void separateByWords() {
-        Pattern wordPattern = Pattern.compile(bookHelper.getREGEX_WORD());
-        Matcher wordMatcher = wordPattern.matcher(bookHelper.getBook().getText());
-        while (wordMatcher.find()) {
-            String word = bookHelper.getBook().getText().substring(wordMatcher.start(), wordMatcher.end());
-            words.add(word);
-        }
-    }
-
-
 }

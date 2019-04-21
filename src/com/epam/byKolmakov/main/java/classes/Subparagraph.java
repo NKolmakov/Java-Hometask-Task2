@@ -1,22 +1,19 @@
 package classes;
 
-import interfaces.IHaveChildObject;
+import interfaces.TextObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class Subparagraph implements IHaveChildObject {
-    private List<String> subparagraphs = new ArrayList<String>();
-    private List<String> sentences;
+public class Subparagraph implements TextObject {
+   List<Sentence> sentences = new LinkedList<Sentence>();
 
-    public Subparagraph(Sentence sentence){
-        this.sentences = sentence.getChildClassObjects();
-    }
-    public List getChildClassObjects() {
-        return subparagraphs;
+    public void addSentence(Sentence sentence) {
+       this.sentences.add(sentence);
     }
 
-    private void separateBySubparagraphs(){
+    public void print() {
 
     }
 }

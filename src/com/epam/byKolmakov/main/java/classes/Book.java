@@ -16,8 +16,7 @@ public class Book {
             while ((symbol = fileReader.read()) != -1){
                 stringBuilder.append((char)symbol);
             }
-
-            this.text = stringBuilder.toString().replaceAll(" +", " ");;
+            this.text = stringBuilder.toString().replaceAll(" +", " ");
     }
 
     public String getText(){
@@ -28,4 +27,3 @@ public class Book {
 //TODO: CREATE OWN EXCEPTION CLASS
 //TODO: BOOKHELPER CONSTRUCTOR HAS TO OUT MY OWN MESSAGE
 //TODO: STOPPED AT WORD: REQUIRED NEW CONSTRUCTOR
-//todo: try to understand git flow again mat ego
