@@ -16,7 +16,6 @@ public class Book {
             while ((symbol = fileReader.read()) != -1){
                 stringBuilder.append((char)symbol);
             }
-            this.text = stringBuilder.toString().replaceAll(" +", " ");
     }
 
     public String getText(){

@@ -1,103 +1,61 @@
 package classes;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BookParser {
     private static BookParser instance;
-    private Book book;
-    private final String REGEX_SIGN = "\\. +| +|\\., +|\\.\\r\\n *|[\\.,\\?!;]";
+
+    private final String REGEX_PUNCTUATION = "\\. +| +|\\., +|\\.\\r\\n *|[\\.,\\?!;]";
     private final String REGEX_WORD = "\\w+";
-    private final String REGEX_SENTENCE = "\\. |\\.$|\\?\\!|[\\?!]";
+    private final String REGEX_SENTENCE = "\\. |\\.$|\\?\\!|[\\?!]|\\.{3}";
+    private final String REGEX_CHAPTER = "§ +\\d*\\w+ \\r\\n";
     private final String REGEX_PARAGRAPH = "";
+    private final String REGEX_SYMBOL = "";
+
+    private List<String> chapters = new LinkedList<String>();
+    private List<String> paragraphs = new LinkedList<String>();
+    private List<String> sentences = new LinkedList<String>();
+    private List<String> words = new LinkedList<String>();
+    private List<String> symbols = new LinkedList<String>();
+    private List<String> punctuations = new LinkedList<String>();
+
+    private Text text = new Text();
 
     private BookParser() {
-        try {
-            book = new Book("text.txt");
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 
     public static BookParser getInstance() {
         if (instance == null) {
-            synchronized (BookParser.class) {
-                if (instance == null) {
-                    return new BookParser();
-                }
-            }
+            return new BookParser();
         }
         return instance;
     }
 
-    public Book getBook() {
-        return book;
+    public Text getText() {
+        return text;
     }
 
-    public String getREGEX_SIGN() {
-        return REGEX_SIGN;
+    public void parseBook(Book book) {
+        String textFromBook = book.getText().replaceAll(" +", " ");
+        fillAllLists(textFromBook);
     }
 
-    public String getREGEX_WORD() {
-        return getREGEX_WORD();
+    private void fillAllLists(String textFromBook) {
+        fillList(chapters, textFromBook.split(REGEX_CHAPTER));
+        fillList(paragraphs, textFromBook.split(REGEX_PARAGRAPH));
+        fillList(sentences, textFromBook.split(REGEX_SENTENCE));
+        fillList(words, textFromBook.split(REGEX_WORD));
+        fillList(punctuations, textFromBook.split(REGEX_PUNCTUATION));
+        fillList(symbols, textFromBook.split(REGEX_SYMBOL));
     }
 
-    public void startParse() {
-
+    private void fillList(List list, String[] strings) {
+        for (String string : strings) {
+            list.add(string);
+        }
     }
 
-    private Word parseWord(int pos) {
-        String text = book.getText().substring(pos);
-        Pattern pattern = Pattern.compile(REGEX_WORD);
-        Matcher matcher = pattern.matcher(text);
-
-        matcher.find();
-        String singleWord = text.substring(matcher.start(), matcher.end())+parseSign(pos);
-
-        Word word = new Word();
-        word.setWord(singleWord);
-
-        return word;
-    }
-
-    private String parseSign(int pos) {
-        String text = book.getText().substring(pos);
-        Pattern pattern = Pattern.compile(REGEX_SIGN);
-        Matcher matcher = pattern.matcher(text);
-
-        matcher.find();
-        String sign = text.substring(matcher.start(), matcher.end());
-        pos = matcher.end();
-
-        return sign;
-    }
-
-    private Sentence parseSentence(int pos) {
-        String text = book.getText().substring(pos);
-        Pattern pattern = Pattern.compile(REGEX_SENTENCE);
-        Matcher matcher = pattern.matcher(text);
-
-        matcher.find();
-        matcher.g
-        String sentence = text.substring(matcher.start(), matcher.end());
-        pos = matcher.end();
-
-        Sentence sentence1 = new Sentence();
-
-
-        return sentence1;
-    }
-
-    private void parseSubparagraph() {
-
-    }
-
-    private Paragraph parseParagraph(){
-        String text = book.getText();
-
-    }
 }

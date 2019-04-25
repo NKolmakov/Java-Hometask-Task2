@@ -19,4 +19,8 @@ public class Sentence implements TextObject {
     public void print() {
 
     }
+
+    public void addChildElement(TextObject object) {
+
+    }
 }

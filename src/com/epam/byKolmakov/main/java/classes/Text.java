@@ -5,14 +5,20 @@ import interfaces.TextObject;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Text implements TextObject {
-    List<Paragraph> paragraphs = new LinkedList<Paragraph>();
+/**
+ * List is the type of TextObject because class Text can contain any type of existing classes    *
+ * if there are no Chapter class Text will be contain low level class Paragraph e.c    *
+ * in any case class Text will be contain at least one paragraph, if file not empty
+ */
 
-    public void addParagraph(Paragraph paragraph){
-        this.paragraphs.add(paragraph);
-    }
+public class Text implements TextObject {
+    List<TextObject> textObjects = new LinkedList<TextObject>();
 
     public void print() {
 
+    }
+
+    public void addChildElement(TextObject object) {
+        textObjects.add(object);
     }
 }

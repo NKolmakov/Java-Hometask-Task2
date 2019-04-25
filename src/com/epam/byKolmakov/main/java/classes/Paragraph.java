@@ -7,13 +7,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Paragraph implements TextObject {
-    List<Subparagraph> subparagraphs = new LinkedList<Subparagraph>();
+    /**
+     * class Paragraph contains sentences, because any set of words can be a sentence
+     * this class doesn't contain any other type of text objects
+     */
+   List<Sentence> sentences = new LinkedList<Sentence>();
 
-    public void addSubparagraph(Subparagraph subparagraph){
-        this.subparagraphs.add(subparagraph);
+    public void addSentence(Sentence sentence) {
+       this.sentences.add(sentence);
     }
 
     public void print() {
 
+    }
+
+    public void addChildElement(TextObject object) {
+        if (object instanceof Sentence) {
+            sentences.add((Sentence) object);
+        }else{
+            System.out.println("This class contains only sentences");
+        }
     }
 }
