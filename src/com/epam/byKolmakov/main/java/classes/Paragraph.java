@@ -11,6 +11,7 @@ public class Paragraph implements TextObject {
      * this class doesn't contain any other type of text objects
      */
    List<Sentence> sentences = new LinkedList<Sentence>();
+   String name = "";
 
     public void print() {
 
