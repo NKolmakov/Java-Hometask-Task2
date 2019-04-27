@@ -1,6 +1,19 @@
+import classes.Book;
+import classes.BookParser;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
-
+        try{
+            BookParser bookParser = BookParser.getInstance();
+            bookParser.parseBook(new Book("text.txt"));
+        }catch (FileNotFoundException ex){
+            System.out.println("Error");
+        }catch (IOException ex){
+            System.out.println("Error");
+        }
     }
 }
 //TODO: CREATE MY OWN EXCEPTION CLASS

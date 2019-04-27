@@ -2,7 +2,6 @@ package classes;
 
 import interfaces.TextObject;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,10 +11,6 @@ public class Paragraph implements TextObject {
      * this class doesn't contain any other type of text objects
      */
    List<Sentence> sentences = new LinkedList<Sentence>();
-
-    public void addSentence(Sentence sentence) {
-       this.sentences.add(sentence);
-    }
 
     public void print() {
 

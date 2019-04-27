@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * List is the type of TextObject because class Text can contain any type of existing classes    *
- * if there are no Chapter class Text will be contain low level class Paragraph e.c    *
+ * if there are no Chapter class Text will be contain low level class Paragraph etc    *
  * in any case class Text will be contain at least one paragraph, if file not empty
  */
 

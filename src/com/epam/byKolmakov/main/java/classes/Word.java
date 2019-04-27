@@ -2,26 +2,29 @@ package classes;
 
 import interfaces.TextObject;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * class Word contains only set of symbols
  */
 
 public class Word implements TextObject {
+    String word;
 
-    List<Symbol> symbols = new LinkedList<Symbol>();
+    public Word(){
+        this.word = "";
+    }
 
+    public Word(String word){
+        this.word = word;
+    }
     public void print() {
 
     }
 
-    public void addChildElement(TextObject object) {
-        if(object instanceof Symbol){
-            symbols.add((Symbol)object);
-        }else{
-            System.out.println("");
-        }
+    public void addChildElement(TextObject object) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Class "+this.getClass()+" is not a container. To add value use setWord() method");
+    }
+
+    public void setWord(String word){
+        this.word = word;
     }
 }
