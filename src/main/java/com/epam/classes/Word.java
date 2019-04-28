@@ -16,7 +16,7 @@ public class Word implements TextObject {
     }
 
     public void print() {
-        System.out.println(this.word);
+        System.out.print(this.word);
     }
 
     public void addChildElement(TextObject object) throws UnsupportedOperationException {
@@ -25,5 +25,10 @@ public class Word implements TextObject {
 
     public void setWord(String word){
         this.word = word;
+    }
+
+    @Override
+    public String toString() {
+        return word;
     }
 }

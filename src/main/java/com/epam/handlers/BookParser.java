@@ -10,9 +10,10 @@ import java.util.regex.Pattern;
 public class BookParser {
     private static BookParser instance;
 
-    private final String REGEX_PUNCTUATION = "\\. +| +|\\., +|\\.\\r\\n *|[\\.,\\?!;-]";
-    private final String REGEX_WORD = "[А-яA-z0-9]+";
-    private final String REGEX_SENTENCE = "([^.!?\\n]+[.!?])";
+    //  private final String REGEX_PUNCTUATION = "\\. +| +|\\., +|, |\\.\\r\\n *|[\\.,\\?!;( - )]";
+    private final String REGEX_PUNCTUATION = "\\.{1,3}([, ])*| ?— ?|,? |-";
+    private final String REGEX_WORD = "[А-яA-z0-9ё]+";
+    private final String REGEX_SENTENCE = "([^.!?\\n]+[.!?] *)";
     private final String REGEX_CHAPTER = "§.+([.]++[^§]*)+";
     private final String REGEX_CHAPTER_NAME = "§.+[^\\n]";
     private final String REGEX_PARAGRAPH = "\n+.++";
@@ -115,14 +116,15 @@ public class BookParser {
         List<TextObject> name = new LinkedList<TextObject>();
         List<TextObject> words = new LinkedList<TextObject>();
         List<TextObject> punctuations = new LinkedList<TextObject>();
-        String stringName = separateBy(chapter, regex).get(0).replaceAll("§ ","");
 
-        for (String word : separateBy(stringName, REGEX_WORD+"[^ \\.]*")) {
+        String stringNameOfChapter = separateBy(chapter, regex).get(0).replaceAll("§ ", "");
+
+        for (String word : separateBy(stringNameOfChapter, REGEX_WORD + "[^ \\.]*")) {
             Word word1 = new Word(word);
             words.add(word1);
         }
 
-        for (String punctuation : separateBy(stringName, REGEX_PUNCTUATION)) {
+        for (String punctuation : separateBy(stringNameOfChapter, REGEX_PUNCTUATION)) {
             Punctuation punctuation1 = new Punctuation(punctuation);
             punctuations.add(punctuation1);
         }
@@ -135,7 +137,6 @@ public class BookParser {
                 name.add(words.get(i));
             }
         }
-
 
         return name;
     }
@@ -159,11 +160,23 @@ public class BookParser {
 
         for (String sentence : separateBy(paragraph, REGEX_SENTENCE)) {
             Sentence sentence1 = new Sentence();
+            List<TextObject> words = new LinkedList<TextObject>();
+            List<TextObject> punctuations = new LinkedList<TextObject>();
 
             for (TextObject word : parseWords(sentence)) {
-                sentence1.addChildElement(word);
+                words.add(word);
             }
 
+            for (TextObject punctuation : parsePunctuation(sentence)) {
+                punctuations.add(punctuation);
+            }
+
+            for (int i = 0; i < words.size(); i++) {
+                sentence1.addChildElement(words.get(i));
+                if (i < punctuations.size()) {
+                    sentence1.addChildElement(punctuations.get(i));
+                }
+            }
             sentences.add(sentence1);
         }
 

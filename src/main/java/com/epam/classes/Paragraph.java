@@ -11,6 +11,7 @@ public class Paragraph implements TextObject {
    List<Sentence> sentences = new LinkedList<Sentence>();
 
     public void print() {
+        System.out.println();
         for(Sentence sentence:sentences){
             sentence.print();
         }

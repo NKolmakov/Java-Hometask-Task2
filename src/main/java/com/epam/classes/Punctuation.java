@@ -12,7 +12,7 @@ public class Punctuation implements TextObject {
     }
 
     public void print() {
-        System.out.println(punctuation);
+        System.out.print(punctuation);
     }
 
 
@@ -26,5 +26,10 @@ public class Punctuation implements TextObject {
 
     public String getPunctuation() {
         return this.punctuation;
+    }
+
+    @Override
+    public String toString() {
+        return punctuation;
     }
 }

@@ -10,17 +10,17 @@ import java.util.List;
 public class Chapter implements TextObject {
     List<Paragraph> paragraphs = new LinkedList<Paragraph>();
     List<TextObject> chapterName = new LinkedList<TextObject>();
-    String name = "";
 
     public void print() {
-        for(TextObject object:chapterName){
-            object.print();
-        }
         System.out.println();
+        System.out.println();
+        System.out.print("§ ");
+        for(TextObject object:chapterName){
+            System.out.print(object.toString());
+        }
         for(Paragraph paragraph:paragraphs){
             paragraph.print();
         }
-        System.out.println();
     }
 
     public void addChildElement(TextObject object) {
@@ -29,14 +29,6 @@ public class Chapter implements TextObject {
         } else {
             System.out.println("Class " + object.getClass() + " can't be in paragraph");
         }
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public String getName(){
-        return this.name;
     }
 
     public List<TextObject> getChapterName(){
