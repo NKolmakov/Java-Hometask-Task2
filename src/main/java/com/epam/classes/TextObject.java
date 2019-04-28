@@ -1,4 +1,4 @@
-package interfaces;
+package com.epam.classes;
 
 public interface TextObject {
     void print();

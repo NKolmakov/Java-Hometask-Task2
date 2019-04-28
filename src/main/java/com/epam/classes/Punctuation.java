@@ -1,6 +1,4 @@
-package classes;
-
-import interfaces.TextObject;
+package com.epam.classes;
 
 public class Punctuation implements TextObject {
     private String punctuation = "";
@@ -14,12 +12,12 @@ public class Punctuation implements TextObject {
     }
 
     public void print() {
-
+        System.out.println(punctuation);
     }
 
 
     public void addChildElement(TextObject object) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Class Symbol is non-container class! Call setPunctuation() method to set a value");
+        throw new UnsupportedOperationException("Class Symbol is non-container class! Call setPunctuation() method or constructor to set a value");
     }
 
     public void setPunctuation(String punctuation) {

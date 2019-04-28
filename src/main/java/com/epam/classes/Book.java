@@ -1,4 +1,4 @@
-package classes;
+package com.epam.classes;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

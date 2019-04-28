@@ -1,6 +1,4 @@
-package classes;
-
-import interfaces.TextObject;
+package com.epam.classes;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,10 +9,11 @@ public class Paragraph implements TextObject {
      * this class doesn't contain any other type of text objects
      */
    List<Sentence> sentences = new LinkedList<Sentence>();
-   String name = "";
 
     public void print() {
-
+        for(Sentence sentence:sentences){
+            sentence.print();
+        }
     }
 
     public void addChildElement(TextObject object) {

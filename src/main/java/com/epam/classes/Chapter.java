@@ -1,18 +1,21 @@
-package classes;
-
-import interfaces.TextObject;
+package com.epam.classes;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class Chapter can contain any com.epam.classes except for Text and Chapter
+ */
+
 public class Chapter implements TextObject {
-    /**
-     * class Chapter can contain any classes except for Text and Chapter
-     */
     List<Paragraph> paragraphs = new LinkedList<Paragraph>();
+    String name = "";
 
     public void print() {
-
+        System.out.println(name);
+        for(Paragraph paragraph:paragraphs){
+            paragraph.print();
+        }
     }
 
     public void addChildElement(TextObject object) {
@@ -21,6 +24,14 @@ public class Chapter implements TextObject {
         } else {
             System.out.println("Class " + object.getClass() + " can't be in paragraph");
         }
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
 }

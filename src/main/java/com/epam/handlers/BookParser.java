@@ -1,6 +1,6 @@
-package classes;
+package com.epam.handlers;
 
-import interfaces.TextObject;
+import com.epam.classes.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,14 +17,7 @@ public class BookParser {
     private final String REGEX_PARAGRAPH = "\n+.++";
     private final String REGEX_SYMBOL = ".";
 
-    private List<String> chapters = new LinkedList<String>();
-    private List<String> paragraphs = new LinkedList<String>();
-    private List<String> sentences = new LinkedList<String>();
-    private List<String> words = new LinkedList<String>();
-    private List<String> symbols = new LinkedList<String>();
-    private List<String> punctuations = new LinkedList<String>();
-
-    private Text text = new Text();
+    private Text textObject = new Text();
 
     private BookParser() {
     }
@@ -37,7 +30,7 @@ public class BookParser {
     }
 
     public Text getText() {
-        return text;
+        return textObject;
     }
 
     public void parseBook(Book book) {
@@ -61,26 +54,36 @@ public class BookParser {
     }
 
     private void startParse(String text) {
-        Text text1 = new Text();
-
         List<String> chapterList = separateBy(text, REGEX_CHAPTER);
         List<String> paragraphList = separateBy(text, REGEX_PARAGRAPH);
-        List<String> sentenceList = separateBy(text, REGEX_SENTENCE);
+
+        // lists for debug
+      /*  List<String> sentenceList = separateBy(text, REGEX_SENTENCE);
         List<String> wordList = separateBy(text, REGEX_WORD);
         List<String> symbolList = separateBy(text, REGEX_SYMBOL);
+        List<String> punctuationList = separateBy(text,REGEX_PUNCTUATION);
+       */
 
+      //checking text elements
+        if (chapterList.size() !=0 ) {
 
-        List<TextObject> chapters = parseChapters(text);
-        List<TextObject> paragraphs = parseParagraphs(text);
-        if (chapters.size() != 0) {
-            for (TextObject chapter : chapters) {
-                text1.addChildElement(chapter);
+            //text has chapters
+            for (TextObject chapter : parseChapters(text)) {
+                textObject.addChildElement(chapter);
             }
 
         } else {
-            if (paragraphs.size() != 0) {
-                for (TextObject paragraph : paragraphs) {
-                    text1.addChildElement(paragraph);
+            if (paragraphList.size() != 0) {
+
+                //text hasn't chapters and has paragraphs
+                for (TextObject paragraph : parseParagraphs(text)) {
+                    textObject.addChildElement(paragraph);
+                }
+            }else{
+
+                //text has only sentences
+                for (TextObject sentence : parseSentences(text)){
+                    textObject.addChildElement(sentence);
                 }
             }
         }
@@ -89,7 +92,7 @@ public class BookParser {
     private List<TextObject> parseChapters(String text) {
         List<TextObject> chapters = new LinkedList<TextObject>(); // list to store parsed chapters as Objects
 
-        for (String chapter : text.split(REGEX_CHAPTER)) {
+        for (String chapter : separateBy(text, REGEX_CHAPTER)) {
             Chapter chapter1 = new Chapter();
             for (TextObject paragraph : parseParagraphs(chapter)) {
                 chapter1.addChildElement(paragraph);
@@ -103,7 +106,7 @@ public class BookParser {
     private List<TextObject> parseParagraphs(String chapter) {
         List<TextObject> paragraphs = new LinkedList<TextObject>();
 
-        for (String paragraph : chapter.split(REGEX_PARAGRAPH)) {
+        for (String paragraph : separateBy(chapter, REGEX_PARAGRAPH)) {
             Paragraph paragraph1 = new Paragraph();
             for (TextObject sentence : parseSentences(paragraph)) {
                 paragraph1.addChildElement(sentence);
@@ -117,7 +120,7 @@ public class BookParser {
     private List<TextObject> parseSentences(String paragraph) {
         List<TextObject> sentences = new LinkedList<TextObject>();
 
-        for (String sentence : paragraph.split(REGEX_SENTENCE)) {
+        for (String sentence : separateBy(paragraph, REGEX_SENTENCE)) {
             Sentence sentence1 = new Sentence();
 
             for (TextObject word : parseWords(sentence)) {
@@ -133,7 +136,7 @@ public class BookParser {
     private List<TextObject> parseWords(String sentence) {
         List<TextObject> words = new LinkedList<TextObject>();
 
-        for (String word : sentence.split(REGEX_WORD)) {
+        for (String word : separateBy(sentence, REGEX_WORD)) {
             Word word1 = new Word(word);
             words.add(word1);
         }
@@ -144,7 +147,7 @@ public class BookParser {
     private List<TextObject> parsePunctuation(String sentence) {
         List<TextObject> punctiations = new LinkedList<TextObject>();
 
-        for (String punctuation : sentence.split(REGEX_PUNCTUATION)) {
+        for (String punctuation : separateBy(sentence, REGEX_PUNCTUATION)) {
             Punctuation punctuation1 = new Punctuation(punctuation);
             punctiations.add(punctuation1);
         }
