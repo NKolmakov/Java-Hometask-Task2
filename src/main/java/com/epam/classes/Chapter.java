@@ -9,13 +9,18 @@ import java.util.List;
 
 public class Chapter implements TextObject {
     List<Paragraph> paragraphs = new LinkedList<Paragraph>();
+    List<TextObject> chapterName = new LinkedList<TextObject>();
     String name = "";
 
     public void print() {
-        System.out.println(name);
+        for(TextObject object:chapterName){
+            object.print();
+        }
+        System.out.println();
         for(Paragraph paragraph:paragraphs){
             paragraph.print();
         }
+        System.out.println();
     }
 
     public void addChildElement(TextObject object) {
@@ -32,6 +37,14 @@ public class Chapter implements TextObject {
 
     public String getName(){
         return this.name;
+    }
+
+    public List<TextObject> getChapterName(){
+        return this.chapterName;
+    }
+
+    public void setChapterName(TextObject object){
+        this.chapterName.add(object);
     }
 
 }
