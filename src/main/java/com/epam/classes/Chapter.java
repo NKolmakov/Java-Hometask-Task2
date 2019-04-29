@@ -31,6 +31,25 @@ public class Chapter implements TextObject {
         }
     }
 
+    public List<TextObject> getElementsByClass(Class class4Search) {
+        List<TextObject> elements = new LinkedList<TextObject>();
+
+        if(class4Search.isInstance(this)) {
+            elements.add(this);
+        }else {
+
+            for(TextObject object:paragraphs){
+                elements.addAll(object.getElementsByClass(class4Search));
+            }
+
+            for(TextObject object:chapterName){
+                elements.addAll(object.getElementsByClass(class4Search));
+            }
+        }
+
+        return elements;
+    }
+
     public List<TextObject> getChapterName(){
         return this.chapterName;
     }

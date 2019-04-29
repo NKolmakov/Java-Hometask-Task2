@@ -14,8 +14,5 @@ public class Main {
     }
 }
 
-//TODO: create method to get chapter name
-//TODO: correct method print() in Chapter class
 
-//TODO: add Punctuation in Sentence class
-//TODO: correct method print() in Sentence class. It has to print word and sing as whole.
+//TODO: can't get child objects

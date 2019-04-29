@@ -8,11 +8,11 @@ public class Paragraph implements TextObject {
      * class Paragraph contains sentences, because any set of words can be a sentence
      * this class doesn't contain any other type of text objects
      */
-   List<Sentence> sentences = new LinkedList<Sentence>();
+    List<TextObject> sentences = new LinkedList<TextObject>();
 
     public void print() {
         System.out.println();
-        for(Sentence sentence:sentences){
+        for (TextObject sentence : sentences) {
             sentence.print();
         }
     }
@@ -20,8 +20,25 @@ public class Paragraph implements TextObject {
     public void addChildElement(TextObject object) {
         if (object instanceof Sentence) {
             sentences.add((Sentence) object);
-        }else{
+        } else {
             System.out.println("This class contains only sentences");
         }
     }
+
+    public List<TextObject> getElementsByClass(Class class4Search) {
+        List<TextObject> elements = new LinkedList<TextObject>();
+
+        if (class4Search.isInstance(this)) {
+            elements.add(this);
+        } else {
+
+            for (TextObject object : sentences) {
+                elements.addAll(object.getElementsByClass(class4Search));
+            }
+
+        }
+
+        return elements;
+    }
+
 }

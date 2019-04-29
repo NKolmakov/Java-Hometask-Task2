@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 public class BookParser {
     private static BookParser instance;
 
-    //  private final String REGEX_PUNCTUATION = "\\. +| +|\\., +|, |\\.\\r\\n *|[\\.,\\?!;( - )]";
     private final String REGEX_PUNCTUATION = "\\.{1,3}([, ])*| ?— ?|,? |-";
     private final String REGEX_WORD = "[А-яA-z0-9ё]+";
     private final String REGEX_SENTENCE = "([^.!?\\n]+[.!?] *)";
@@ -38,7 +37,6 @@ public class BookParser {
     public void parseBook(Book book) {
         String textFromBook = book.getText();
         startParse(textFromBook);
-
     }
 
     private List<String> separateBy(String string, String regex) {
@@ -56,19 +54,9 @@ public class BookParser {
     }
 
     private void startParse(String text) {
-        List<String> chapterList = separateBy(text, REGEX_CHAPTER);
-        List<String> paragraphList = separateBy(text, REGEX_PARAGRAPH);
-        List<String> chapterNamesList = separateBy(text, REGEX_CHAPTER_NAME);
-
-        // lists for debug
-      /*  List<String> sentenceList = separateBy(text, REGEX_SENTENCE);
-        List<String> wordList = separateBy(text, REGEX_WORD);
-        List<String> symbolList = separateBy(text, REGEX_SYMBOL);
-        List<String> punctuationList = separateBy(text,REGEX_PUNCTUATION);
-       */
 
         //checking text elements
-        if (chapterList.size() != 0) {
+        if (separateBy(text,REGEX_CHAPTER).size() != 0) {
 
             //text has chapters
             for (TextObject chapter : parseChapters(text)) {
@@ -76,7 +64,7 @@ public class BookParser {
             }
 
         } else {
-            if (paragraphList.size() != 0) {
+            if (separateBy(text, REGEX_PARAGRAPH).size() != 0) {
 
                 //text hasn't chapters and has paragraphs
                 for (TextObject paragraph : parseParagraphs(text)) {
