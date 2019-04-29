@@ -3,11 +3,12 @@ package com.epam.classes;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * class Paragraph contains only sentences, because any set of words can be a sentence
+ * this class doesn't contain any other type of text objects
+ */
+
 public class Paragraph implements TextObject {
-    /**
-     * class Paragraph contains sentences, because any set of words can be a sentence
-     * this class doesn't contain any other type of text objects
-     */
     List<TextObject> sentences = new LinkedList<TextObject>();
 
     public void print() {

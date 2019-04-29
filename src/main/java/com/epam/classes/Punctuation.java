@@ -3,6 +3,10 @@ package com.epam.classes;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This is simple type of text. Class punctuation contains one string field
+ * It can't be container, so it can't implements methods to return a set of elements
+ */
 public class Punctuation implements TextObject {
     private String punctuation = "";
 

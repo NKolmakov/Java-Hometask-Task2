@@ -10,32 +10,34 @@ public class Sentence implements TextObject {
     public void print() {
         for (int i = 0; i < words.size(); i++) {
             words.get(i).print();
-            punctuations.get(i).print();
+            if (i < punctuations.size()) {
+                punctuations.get(i).print();
+            }
         }
     }
 
     public void addChildElement(TextObject object) {
-        if(object instanceof Word){
-            this.words.add((Word)object);
-        }else if(object instanceof Punctuation) {
+        if (object instanceof Word) {
+            this.words.add((Word) object);
+        } else if (object instanceof Punctuation) {
             this.punctuations.add((Punctuation) object);
-        }else{
-            System.out.println("Class "+object.getClass()+"can't be in sentence");
+        } else {
+            System.out.println("Class " + object.getClass() + "can't be in sentence");
         }
     }
 
     public List<TextObject> getElementsByClass(Class class4Search) {
         List<TextObject> elements = new LinkedList<TextObject>();
 
-        if(class4Search.isInstance(this)){
+        if (class4Search.isInstance(this)) {
             elements.add(this);
-        }else{
+        } else {
 
-            for (TextObject object:words){
+            for (TextObject object : words) {
                 elements.addAll(object.getElementsByClass(class4Search));
             }
 
-            for(TextObject object:punctuations){
+            for (TextObject object : punctuations) {
                 elements.addAll(object.getElementsByClass(class4Search));
             }
         }
@@ -43,7 +45,7 @@ public class Sentence implements TextObject {
         return elements;
     }
 
-    public List<TextObject> getWords(){
+    public List<TextObject> getWords() {
         return words;
     }
 
