@@ -10,10 +10,11 @@ import java.util.regex.Pattern;
 public class BookParser {
     private static BookParser instance;
 
-    private final String REGEX_PUNCTUATION = "\\. +| +|\\., +|\\.\\r\\n *|[\\.,\\?!;]";
-    private final String REGEX_WORD = "[А-яA-z0-9]+";
-    private final String REGEX_SENTENCE = "([^.!?\\n]+[.!?])";
+    private final String REGEX_PUNCTUATION = "\\.{1,3}([, ])*| ?— ?|,? |-";
+    private final String REGEX_WORD = "[А-яA-z0-9ё]+";
+    private final String REGEX_SENTENCE = "([^.!?\\n]+[.!?] *)";
     private final String REGEX_CHAPTER = "§.+([.]++[^§]*)+";
+    private final String REGEX_CHAPTER_NAME = "§.+[^\\n]";
     private final String REGEX_PARAGRAPH = "\n+.++";
     private final String REGEX_SYMBOL = ".";
 
@@ -36,7 +37,6 @@ public class BookParser {
     public void parseBook(Book book) {
         String textFromBook = book.getText();
         startParse(textFromBook);
-
     }
 
     private List<String> separateBy(String string, String regex) {
@@ -54,18 +54,9 @@ public class BookParser {
     }
 
     private void startParse(String text) {
-        List<String> chapterList = separateBy(text, REGEX_CHAPTER);
-        List<String> paragraphList = separateBy(text, REGEX_PARAGRAPH);
 
-        // lists for debug
-      /*  List<String> sentenceList = separateBy(text, REGEX_SENTENCE);
-        List<String> wordList = separateBy(text, REGEX_WORD);
-        List<String> symbolList = separateBy(text, REGEX_SYMBOL);
-        List<String> punctuationList = separateBy(text,REGEX_PUNCTUATION);
-       */
-
-      //checking text elements
-        if (chapterList.size() !=0 ) {
+        //checking text elements
+        if (separateBy(text,REGEX_CHAPTER).size() != 0) {
 
             //text has chapters
             for (TextObject chapter : parseChapters(text)) {
@@ -73,16 +64,16 @@ public class BookParser {
             }
 
         } else {
-            if (paragraphList.size() != 0) {
+            if (separateBy(text, REGEX_PARAGRAPH).size() != 0) {
 
                 //text hasn't chapters and has paragraphs
                 for (TextObject paragraph : parseParagraphs(text)) {
                     textObject.addChildElement(paragraph);
                 }
-            }else{
+            } else {
 
                 //text has only sentences
-                for (TextObject sentence : parseSentences(text)){
+                for (TextObject sentence : parseSentences(text)) {
                     textObject.addChildElement(sentence);
                 }
             }
@@ -94,6 +85,12 @@ public class BookParser {
 
         for (String chapter : separateBy(text, REGEX_CHAPTER)) {
             Chapter chapter1 = new Chapter();
+
+            //loop for define chapter name
+            for (TextObject object : parseChapterName(chapter, REGEX_CHAPTER_NAME)) {
+                chapter1.setChapterName(object);
+            }
+
             for (TextObject paragraph : parseParagraphs(chapter)) {
                 chapter1.addChildElement(paragraph);
             }
@@ -101,6 +98,35 @@ public class BookParser {
         }
 
         return chapters;
+    }
+
+    private List<TextObject> parseChapterName(String chapter, String regex) {
+        List<TextObject> name = new LinkedList<TextObject>();
+        List<TextObject> words = new LinkedList<TextObject>();
+        List<TextObject> punctuations = new LinkedList<TextObject>();
+
+        String stringNameOfChapter = separateBy(chapter, regex).get(0).replaceAll("§ ", "");
+
+        for (String word : separateBy(stringNameOfChapter, REGEX_WORD + "[^ \\.]*")) {
+            Word word1 = new Word(word);
+            words.add(word1);
+        }
+
+        for (String punctuation : separateBy(stringNameOfChapter, REGEX_PUNCTUATION)) {
+            Punctuation punctuation1 = new Punctuation(punctuation);
+            punctuations.add(punctuation1);
+        }
+
+        for (int i = 0; i < words.size(); i++) {
+            if (i < punctuations.size()) {
+                name.add(words.get(i));
+                name.add(punctuations.get(i));
+            } else {
+                name.add(words.get(i));
+            }
+        }
+
+        return name;
     }
 
     private List<TextObject> parseParagraphs(String chapter) {
@@ -122,11 +148,23 @@ public class BookParser {
 
         for (String sentence : separateBy(paragraph, REGEX_SENTENCE)) {
             Sentence sentence1 = new Sentence();
+            List<TextObject> words = new LinkedList<TextObject>();
+            List<TextObject> punctuations = new LinkedList<TextObject>();
 
             for (TextObject word : parseWords(sentence)) {
-                sentence1.addChildElement(word);
+                words.add(word);
             }
 
+            for (TextObject punctuation : parsePunctuation(sentence)) {
+                punctuations.add(punctuation);
+            }
+
+            for (int i = 0; i < words.size(); i++) {
+                sentence1.addChildElement(words.get(i));
+                if (i < punctuations.size()) {
+                    sentence1.addChildElement(punctuations.get(i));
+                }
+            }
             sentences.add(sentence1);
         }
 
