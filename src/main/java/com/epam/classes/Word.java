@@ -1,5 +1,7 @@
 package com.epam.classes;
 
+import com.epam.Main;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +25,8 @@ public class Word implements TextObject {
     }
 
     public void addChildElement(TextObject object) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Class "+this.getClass()+" is not a container. To add value use setWord() method or constructor");
+        Main.LOGGER.error("Called unsupported method.");
+        throw new UnsupportedOperationException("Class Word isn't container! Use constructor to set a value");
     }
 
     public List<TextObject> getElementsByClass(Class class4Search) {
@@ -40,8 +43,7 @@ public class Word implements TextObject {
         this.word = word;
     }
 
-    @Override
-    public String toString() {
+    public String getWord(){
         return word;
     }
 }

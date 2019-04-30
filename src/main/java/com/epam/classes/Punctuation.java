@@ -1,5 +1,7 @@
 package com.epam.classes;
 
+import com.epam.Main;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +26,8 @@ public class Punctuation implements TextObject {
 
 
     public void addChildElement(TextObject object) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Class Symbol is non-container class! Call setPunctuation() method or constructor to set a value");
+        Main.LOGGER.error("Called unsupported method.");
+        throw new UnsupportedOperationException("Class Symbol isn't container! Use constructor to set a value");
     }
 
     public List<TextObject> getElementsByClass(Class class4Search) {
@@ -37,17 +40,11 @@ public class Punctuation implements TextObject {
         return punctuations;
     }
 
-    public void setPunctuation(String punctuation) {
+    public void setPunctuation(String punctuation){
         this.punctuation = punctuation;
     }
 
-    public String getPunctuation() {
-        return this.punctuation;
-    }
-
-
-    @Override
-    public String toString() {
+    public String getPunctuation(){
         return punctuation;
     }
 }

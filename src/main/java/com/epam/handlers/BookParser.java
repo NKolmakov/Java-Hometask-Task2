@@ -16,7 +16,6 @@ public class BookParser {
     private final String REGEX_CHAPTER = "§.+([.]++[^§]*)+";
     private final String REGEX_CHAPTER_NAME = "§.+[^\\n]";
     private final String REGEX_PARAGRAPH = "\n+.++";
-    private final String REGEX_SYMBOL = ".";
 
     private Text textObject = new Text();
 
@@ -30,12 +29,12 @@ public class BookParser {
         return instance;
     }
 
-    public Text getText() {
+    public Text getTextAsObject() {
         return textObject;
     }
 
     public void parseBook(Book book) {
-        String textFromBook = book.getText();
+        String textFromBook = book.getText().replaceAll("\\s{2,}"," ");
         startParse(textFromBook);
     }
 

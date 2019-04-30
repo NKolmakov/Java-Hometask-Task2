@@ -1,5 +1,7 @@
 package com.epam.classes;
 
+import com.epam.Main;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class Paragraph implements TextObject {
         if (object instanceof Sentence) {
             sentences.add((Sentence) object);
         } else {
-            System.out.println("This class contains only sentences");
+            Main.LOGGER.warn("Class "+object.getClass()+" isn't child to this");
         }
     }
 
@@ -40,6 +42,10 @@ public class Paragraph implements TextObject {
         }
 
         return elements;
+    }
+
+    public List<TextObject> getSentences(){
+        return sentences;
     }
 
 }
