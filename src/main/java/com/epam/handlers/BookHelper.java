@@ -13,12 +13,13 @@ public class BookHelper {
 
     public static BookHelper getInstance() {
         if (instance == null) {
-            return new BookHelper();
+            instance = new BookHelper();
+            return instance;
         }
         return instance;
     }
 
-    public void printSentenceByWordsAmount(Text text) {
+    public List<Sentence> sortSentencesByWordsAmount(Text text) {
         List<Sentence> sentences = new LinkedList<Sentence>();
         for (TextObject object : text.getElementsByClass(Sentence.class)) {
             if (object instanceof Sentence) {
@@ -38,9 +39,6 @@ public class BookHelper {
             }
         });
 
-        for (Sentence sentence : sentences) {
-            System.out.println();
-            sentence.print();
-        }
+        return sentences;
     }
 }

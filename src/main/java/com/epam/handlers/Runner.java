@@ -19,8 +19,10 @@ public class Runner {
             System.out.println("--------------------------------------------------------------------------------------");
             System.out.println("                Sort sentences in ascending order by words amount");
             System.out.println("--------------------------------------------------------------------------------------");
-            helper.printSentenceByWordsAmount(parser.getTextAsObject());
-            System.out.println();
+           for(Sentence sentence: helper.sortSentencesByWordsAmount(parser.getTextAsObject())){
+               sentence.print();
+               System.out.println();
+           }
         } catch (FileNotFoundException ex) {
             System.out.println("Book doesn't exist!");
             Main.LOGGER.error("Book not found");

@@ -48,10 +48,18 @@ public class PunctuationTest {
     }
 
     @Test
-    public void setPunctuation() {
+    public void getElementsByClassFalse() {
+        List<Sentence> expected = new LinkedList<Sentence>();
+        expected.add(sentences.get(0));
+
+        assertNotEquals(expected,punctuation.getElementsByClass(Sentence.class));
     }
 
     @Test
-    public void getPunctuation() {
+    public void setPunctuation() {
+        String expectedPunctuation = ", ";
+        punctuation.setPunctuation(expectedPunctuation);
+
+        assertEquals(expectedPunctuation,punctuation.getPunctuation());
     }
 }
