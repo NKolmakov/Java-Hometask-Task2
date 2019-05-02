@@ -35,7 +35,7 @@ public class BookParser {
     }
 
     public void parseBook(Book book) {
-        String textFromBook = book.getText().replaceAll(" {2,}"," ").replaceAll("\\n{2,}","\\n");
+        String textFromBook = book.getText().replaceAll(" {2,}", " ").replaceAll("\\n{2,}", "\\n");
         startParse(textFromBook);
     }
 
@@ -56,7 +56,7 @@ public class BookParser {
     private void startParse(String text) {
         textObject = new Text();
         //checking text elements
-        if (separateBy(text,REGEX_CHAPTER).size() != 0) {
+        if (separateBy(text, REGEX_CHAPTER).size() != 0) {
 
             //text has chapters
             for (TextObject chapter : parseChapters(text)) {
@@ -102,32 +102,20 @@ public class BookParser {
 
     private List<TextObject> parseChapterName(String chapter, String regex) {
         List<TextObject> name = new LinkedList<TextObject>();
-        List<TextObject> sentences = new LinkedList<TextObject>();
-//        List<TextObject> words = new LinkedList<TextObject>();
-//        List<TextObject> punctuations = new LinkedList<TextObject>();
-
-
-        //если все слетит убрать цикл разбиения на предложения
         String stringNameOfChapter = separateBy(chapter, regex).get(0).replaceAll("§ ", "");
-        if(separateBy(stringNameOfChapter,REGEX_SENTENCE).size() !=0 ) { //new
-            for(String sentence:separateBy(stringNameOfChapter,REGEX_SENTENCE)) {
 
-                //new
+        if (separateBy(stringNameOfChapter, REGEX_SENTENCE).size() != 0) {
+            List<TextObject> sentences = new LinkedList<TextObject>();
+
+            for (String sentence : separateBy(stringNameOfChapter, REGEX_SENTENCE)) {
+
                 Sentence sentence1 = new Sentence();
                 List<TextObject> words = new LinkedList<TextObject>();
                 List<TextObject> punctuations = new LinkedList<TextObject>();
-                //endnew
 
-               for (TextObject word : parseWords(sentence)) {       //replace to stringnameofchapter
-//                    Word word1 = new Word(word);
+                for (TextObject word : parseWords(sentence)) {
                     words.add(word);
                 }
-//                for (String word : separateBy(sentence, REGEX_WORD + "[^ \\.]*")) {       //replace to stringnameofchapter
-//                    Word word1 = new Word(word);
-//                    words.add(word1);
-//
-//                    sentence1.addChildElement(word1); //new
-//                }
 
                 for (TextObject punctuation : parsePunctuation(sentence)) {
                     punctuations.add(punctuation);
@@ -143,24 +131,9 @@ public class BookParser {
                 }
 
                 sentences.add(sentence1);
-
-//                for (String punctuation : separateBy(stringNameOfChapter, REGEX_PUNCTUATION)) {
-//                    Punctuation punctuation1 = new Punctuation(punctuation);
-//                    punctuations.add(punctuation1);
-//                }
             }
+            name.addAll(sentences);
         }
-
-        name.addAll(sentences);
-
-//        for (int i = 0; i < words.size(); i++) {
-//            if (i < punctuations.size()) {
-//                name.add(words.get(i));
-//                name.add(punctuations.get(i));
-//            } else {
-//                name.add(words.get(i));
-//            }
-//        }
 
         return name;
     }
