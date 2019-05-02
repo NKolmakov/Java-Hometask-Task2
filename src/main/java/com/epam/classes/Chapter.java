@@ -1,5 +1,7 @@
 package com.epam.classes;
 
+import com.epam.Main;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,12 +40,10 @@ public class Chapter implements TextObject {
         //chapter doesn't contain any high-order classes ant itself
         if (object instanceof Paragraph) {
 
-            //right
             paragraphs.add((Paragraph) object);
         } else {
 
-            //wrong
-            System.out.println("Class " + object.getClass() + " can't be in chapter");
+            Main.LOGGER.warn("Class "+object.getClass()+" isn't child to this");
         }
     }
 
@@ -76,7 +76,15 @@ public class Chapter implements TextObject {
 
     //As Chapter is one of the classes, that have name and content it is impossible add signature to interface
     public void setChapterName(TextObject object) {
-        this.chapterName.add(object);
+        if(object instanceof Sentence || object instanceof Word || object instanceof Punctuation){
+            this.chapterName.add(object);
+        }else{
+            Main.LOGGER.warn("Chapter name doesn't contain "+object.getClass()+" type of text");
+        }
+
     }
 
+    public List<Paragraph> getParagraphs(){
+        return paragraphs;
+    }
 }
