@@ -1,11 +1,13 @@
 package com.epam.classes;
 
+import com.epam.Main;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Sentence implements TextObject {
-    List<TextObject> words = new LinkedList<TextObject>();
-    List<TextObject> punctuations = new LinkedList<TextObject>();
+    List<Word> words = new LinkedList<Word>();
+    List<Punctuation> punctuations = new LinkedList<Punctuation>();
 
     public void print() {
         for (int i = 0; i < words.size(); i++) {
@@ -22,7 +24,7 @@ public class Sentence implements TextObject {
         } else if (object instanceof Punctuation) {
             this.punctuations.add((Punctuation) object);
         } else {
-            System.out.println("Class " + object.getClass() + "can't be in sentence");
+            Main.LOGGER.warn("Class "+object.getClass()+" isn't child to this");
         }
     }
 
@@ -45,8 +47,12 @@ public class Sentence implements TextObject {
         return elements;
     }
 
-    public List<TextObject> getWords() {
+    public List<Word> getWords() {
         return words;
+    }
+
+    public List<Punctuation> getPunctuations(){
+        return punctuations;
     }
 
 }
